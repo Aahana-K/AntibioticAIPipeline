@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "UTF-8">
+    <title>bactiVISION</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+            body {
+  background-image: url('Copy of bactivisionhomebg (7).png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-attachment:scroll;
+  padding-top: 125px;
+            }
+    </style>
+</head>
+
+
+<body>
+
+    <nav class="navbar">
+        <div class = "logo">bactiVISION</div>
+        <ul class="navLinks">
+            <li><a href = 'form.html'>Instant Results</a></li>
+            <li><a href = 'index.html'>Home</a></li>
+        </ul>
+    </nav>
+    
+    <script>
+
+    userInputs = {
+        'charlsonCondition_anymalignancy/lymphoma/leukemia':null,
+        'charlsonCondition_cerebrovascularDisease':null,
+       'charlsonCondition_chronicPulmonaryDisease':null,
+       'charlsonCondition_congestiveHeartFailure':null,
+       'charlsonCondition_diabetesnoChronicComplication':null,
+       'charlsonCondition_diabeteswEndOrganDamage':null,
+       'charlsonCondition_hematologicDisease':null,
+       'charlsonCondition_metastaticSolidTumour':null,
+       'charlsonCondition_mildLiverDisease':null,
+       'charlsonCondition_moderateoSevereLiverDisease':null,
+       'charlsonCondition_myocardialInfraction':null,
+       'charlsonCondition_peripheralVascularDisease':null,
+       'charlsonCondition_renalDisease':null,
+       'charlsonCondition_rheumaticDisease':null,
+       'charlsonIndex':null,
+       'procedure_description_cvc':null,
+       'procedure_description_dialysis':null,
+       'procedure_description_mechvent':null,
+       'procedure_description_parenteral_nutrition':null,
+       'procedure_description_surgical_procedure':null,
+       'procedure_description_urethral_catheter':null,
+       'age':null,
+       'culture_description':null,
+    }
+    yn = ['0','1']
+    cultures = ['respiratory','blood','urine']
+    const pattern = new RegExp("^\\d+$");
+
+    function validation(sendID,inputID,category,yayM,alertM){
+        let value = null;
+        document.getElementById(sendID).addEventListener("click",function(){
+            const userInput = document.getElementById(inputID).value.trim();
+            
+            if (userInput == 'N/A'){
+                userInputs[category] = '0';
+            }
+            else if (!pattern.test(userInput)){
+                alert(alertM);
+                document.getElementById(inputID).value="";
+                value = null;
+            }
+            else{
+              
+                userInputs[category] = userInput;
+            }
+
+            })
+        }
+
+    function isInList(sendID,inputID,category,yayM,alertM,cList){
+        document.getElementById(sendID).addEventListener("click",function(){
+            const userInput = document.getElementById(inputID).value.trim();
+            let numVal = Number(userInput)
+            if (Number.isInteger(numVal) && userInput != ""){
+                if (!cList.includes(userInput)){
+                    alert(alertM+cList);
+                    document.getElementById(inputID).value="";
+                }
+                else{
+                    
+                    userInputs[category] = userInput;
+                }
+            }
+            else {
+                if (!cList.includes(userInput)){
+                    alert(alertM+cList);
+                    document.getElementById(inputID).value="";
+                }
+                else{
+                    userInputs[category] = userInput.toUpperCase();
+                }
+                }
+            
+        })
+    }
+    </script>
+
+<div>   
+    <center>
+    <h1>INSTANT RESULTS</h1> 
+    <h3>Fill out patient info asked below to get: predicted bacterial infection, antibiotics, model's confidence score and reasoning behind its choices. Please press the arrow button to individually submit your answer for each question.</h3> 
+
+    </center>
+
+   <center>
+    <h2> PATIENT DEMOGRAPHICS</h2>
+    <h3> Fill in below</h3>
+    </center>
+     <br>
+    <div class = 'makeRow'>
+        <div class = "labelAbove" tLabel = "Culture Description:">
+            <input class ="pretty" type = "text" id = "inCulture" placeholder="Type Here">
+            <button class = 'subBtn' id = "subCulture">↑</button>
+        </div>
+        <script>
+            isInList('subCulture','inCulture','culture_description','yay your culture','oh no culture',cultures)
+        </script>
+        <div class = "labelAbove" tLabel = "Age:">
+
+            <input class ="pretty" type = "text" id = "inAge" placeholder="Type Here">
+            <button class = 'subBtn' id = "subAge">↑</button>
+        </div>
+        <script>
+            validation('subAge','inAge','age','yay your age','oh no age')
+        </script>
+        <div class = "labelAbove" tLabel = "Charlson Comorbidity Index:">
+            <input class ="pretty" type = "text" id = "inIndex" placeholder="Type Here">
+            <button class = 'subBtn' id = "subIndex">↑</button>
+        </div>
+        <script>
+            validation('subIndex','inIndex','charlsonIndex','yay your index','oh no index')
+        </script>
+
+    </div>
+
+</div>
+
+<br>
+   <center>
+    <h2> COMORBIDITIES</h2>
+    <h3> Enter 1 if patient has the has the comorbidity and 0 if they don't.</h3>
+    </center>
+<br>
+    <div class = 'makeRow'>
+        <div class = "labelAbove" tLabel = "Anymalignancy:">
+            <input class ="pretty" type = "text" id = "inMal" placeholder="Type Here">
+            <button class = 'subBtn' id = "subMal">↑</button>
+        </div>
+        <script>
+            isInList('subMal','inMal','charlsonCondition_anymalignancy/lymphoma/leukemia','yay your malignancy','oh no malignancy',yn)
+        </script>
+        <div class = "labelAbove" tLabel = "Cerebrovascular Disease:">
+
+            <input class ="pretty" type = "text" id = "inCere" placeholder="Type Here">
+            <button class = 'subBtn' id = "subCere">↑</button>
+        </div>
+        <script>
+            isInList('subCere','inCere','charlsonCondition_cerebrovascularDisease','YAY your cerebro is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+        <div class = "labelAbove" tLabel = "Chronic Pulmonary Disease:">
+            <input class ="pretty" type = "text" id = "inPulm" placeholder="Type Here">
+            <button class = 'subBtn' id = "subPulm">↑</button>
+        </div>
+        <script>
+            isInList('subPulm','inPulm','charlsonCondition_chronicPulmonaryDisease','YAY your chronic pulm evel is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+                <div class = "labelAbove" tLabel = "Congestive Heart Failure:">
+            <input class ="pretty" type = "text" id = "inHeart" placeholder="Type Here">
+            <button class = 'subBtn' id = "subHeart">↑</button>
+        </div>
+        <script>
+            isInList('subHeart','inHeart','charlsonCondition_congestiveHeartFailure','YAY your heart fail is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+    </div>
+
+</div>
+<br>
+<br>
+    <div class = 'makeRow'>
+        <div class = "labelAbove" tLabel = "Diabetes No CC:">
+            <input class ="pretty" type = "text" id = "inDiab" placeholder="Type Here">
+            <button class = 'subBtn' id = "subDiab">↑</button>
+        </div>
+        <script>
+            isInList('subDiab','inDiab','charlsonCondition_diabetesnoChronicComplication','YAY your diab is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+        <div class = "labelAbove" tLabel = "Diabetes + EOD:">
+
+            <input class ="pretty" type = "text" id = "inDiabEod" placeholder="Type Here">
+            <button class = 'subBtn' id = "subDiabEod">↑</button>
+        </div>
+        <script>
+            isInList('subDiabEod','inDiabEod','charlsonCondition_diabeteswEndOrganDamage','YAY diabetes is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+        <div class = "labelAbove" tLabel = "Hematologic Disease:">
+            <input class ="pretty" type = "text" id = "inHema" placeholder="Type Here">
+            <button class = 'subBtn' id = "subHema">↑</button>
+        </div>
+        <script>
+            isInList('subHema','inHema','charlsonCondition_hematologicDisease','YAY your job level is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+                <div class = "labelAbove" tLabel = "Metastatic Solid Tumour:">
+            <input class ="pretty" type = "text" id = "inMeta" placeholder="Type Here">
+            <button class = 'subBtn' id = "subMeta">↑</button>
+        </div>
+        <script>
+            isInList('subMeta','inMeta','charlsonCondition_metastaticSolidTumour','YAY your job level is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+    </div>
+
+</div>
+
+<br>
+<br>
+    <div class = 'makeRow'>
+        <div class = "labelAbove" tLabel = "Mild Liver Disease:">
+            <input class ="pretty" type = "text" id = "inmDisease" placeholder="Type Here">
+            <button class = 'subBtn' id = "submDisease">↑</button>
+        </div>
+        <script>
+            isInList('submDisease','inmDisease','charlsonCondition_mildLiverDisease','YAY your degree is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+        <div class = "labelAbove" tLabel = "Mod-Sev Liver Disease:">
+
+            <input class ="pretty" type = "text" id = "insDisease" placeholder="Type Here">
+            <button class = 'subBtn' id = "subsDisease">↑</button>
+        </div>
+        <script>
+            isInList('subsDisease','insDisease','charlsonCondition_moderateoSevereLiverDisease','YAY your field is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+        <div class = "labelAbove" tLabel = "Myocardial Infraction:">
+            <input class ="pretty" type = "text" id = "inCardial" placeholder="Type Here">
+            <button class = 'subBtn' id = "subCardial">↑</button>
+        </div>
+        <script>
+            isInList('subCardial','inCardial','charlsonCondition_myocardialInfraction','YAY your job level is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+                <div class = "labelAbove" tLabel = "Peripheral Vascular Disease:">
+            <input class ="pretty" type = "text" id = "inPvd" placeholder="Type Here">
+            <button class = 'subBtn' id = "subPvd">↑</button>
+        </div>
+        <script>
+            isInList('subPvd','inPvd','charlsonCondition_peripheralVascularDisease','YAY your job level is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+    </div>
+
+<br>
+    <div class = 'makeRow'>
+        <div class = "labelAbove" tLabel = "Rheumatic Disease:">
+
+            <input class ="pretty" type = "text" id = "inRheum" placeholder="Type Here">
+            <button class = 'subBtn' id = "subRheum">↑</button>
+        </div>
+        <script>
+            isInList('subRheum','inRheum',"charlsonCondition_rheumaticDisease",'YAY your field is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+        
+        
+        <div class = "labelAbove" tLabel = "Renal Disease:">
+
+            <input class ="pretty" type = "text" id = "inRenal" placeholder="Type Here">
+            <button class = 'subBtn' id = "subRenal">↑</button>
+        </div>
+        <script>
+            isInList('subRenal','inRenal','charlsonCondition_renalDisease','YAY your field is saved as ','Invalid, please check spelling and capitals! Valid options include: ',yn)
+        </script>
+    </div>
+
+<br>
+   <center>
+    <h2>PAST PROCEDURES</h2>
+    <h3> Enter how long ago patient had the procedure in days(within max 2 years), enter N/A if they haven't had it.</h3>
+    </center>
+<br>
+    <div class = 'makeRow'>
+        <div class = "labelAbove" tLabel = "Central Venous Catheter:">
+            <input class ="pretty" type = "text" id = "inCVC" placeholder="Type Here">
+            <button class = 'subBtn' id = "subCVC">↑</button>
+        </div>
+        <script>
+            validation('subCVC','inCVC','procedure_description_cvc','YAY your cvc is saved as ','Invalid, please check spelling and capitals! Valid options include: ')
+        </script>
+        <div class = "labelAbove" tLabel = "Dialysis:">
+
+            <input class ="pretty" type = "text" id = "inDialysis" placeholder="Type Here">
+            <button class = 'subBtn' id = "subDialysis">↑</button>
+        </div>
+        <script>
+            validation('subDialysis','inDialysis','procedure_description_dialysis','YAY your dialysis is saved as ','Invalid, please check spelling and capitals! Valid options include: ')
+        </script>
+
+            <div class = "labelAbove" tLabel = "Mechvent:">
+            <input class ="pretty" type = "text" id = "inMechvent" placeholder="Type Here">
+            <button class = 'subBtn' id = "subMechvent">↑</button>
+        </div>
+        <script>
+            validation('subMechvent','inMechvent','procedure_description_mechvent','YAY your mechvent is saved as ','Invalid, please check spelling and capitals! Valid options include: ')
+        </script>
+        <div class = "labelAbove" tLabel = "Parenteral Nutrition:">
+
+            <input class ="pretty" type = "text" id = "inPN" placeholder="Type Here">
+            <button class = 'subBtn' id = "subPN">↑</button>
+        </div>
+        <script>
+            validation('subPN','inPN','procedure_description_parenteral_nutrition','YAY your field is saved as ','Invalid, please check spelling and capitals! Valid options include: ')
+        </script>
+        </div>
+
+<br>
+<br>
+    <div class = 'makeRow'>
+        <div class = "labelAbove" tLabel = "Surgical Procedure:">
+            <input class ="pretty" type = "text" id = "inSP" placeholder="Type Here">
+            <button class = 'subBtn' id = "subSP">↑</button>
+        </div>
+        <script>
+            validation('subSP','inSP','procedure_description_surgical_procedure','YAY your surgical is saved as ','Invalid, please check spelling and capitals! Valid options include: ')
+        </script>
+        <div class = "labelAbove" tLabel = "Uretheral Cather:">
+
+            <input class ="pretty" type = "text" id = "inUC" placeholder="Type Here">
+            <button class = 'subBtn' id = "subUC">↑</button>
+        </div>
+        <script>
+            validation('subUC','inUC','procedure_description_urethral_catheter','YAY your uretheral is saved as ','Invalid, please check spelling and capitals! Valid options include: ')
+        </script>
+        <button class = "submit" id="submit">SUBMIT</button>
+        
+        
+    </div>
+
+<br>
+
+
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+    document.getElementById('submit').addEventListener("click",function(){
+        console.log(JSON.stringify(userInputs,null,2))
+        let counter = 0;
+        for (let key in userInputs){
+            if (userInputs[key]!=null){
+                counter+=1
+            }
+        }
+        console.log("dictionary num of filled spots"+counter);
+        if (counter == 23){
+            fetch('http://127.0.0.1:5000/predict',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    userInputs:userInputs
+                })
+            })
+            .then(unReadableResult => unReadableResult.json())
+            .then(codedResult=>{
+                
+              
+                alert("Bacteria "+codedResult['predicted bacterium']+", Antibiotics: "+codedResult['antibiotic'] + ", Outcome: "+codedResult['outcome']+', Confidence score: '+codedResult['antibioticConfidenceScore']);
+            
+            })
+        } else{
+            alert("Please fill out all the questions!")
+        }
+    })
+
+})
+</script>
+  
+
+
+        
+</div>
+</body>
+</html>
