@@ -10,3 +10,6 @@ stage1antibioticAI.py - ensemble model for first stage of pipeline
 
 form.html - page for entering in patient info to AI
 
+index.html - home page
+
+urinrCultures.py - one of testing files, included to show a different approach I tried for the pipeline
