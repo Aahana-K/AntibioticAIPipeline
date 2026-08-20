@@ -1,4 +1,3 @@
-#importing libraries
 import numpy as np
 import flask
 import pickle
@@ -7,7 +6,6 @@ from flask import Flask, request, jsonify
 import os
 import matplotlib.pyplot as plt
 
-#creating instance of the class
 import pandas as pd
 import numpy as np
 from flask_cors import CORS
@@ -37,10 +35,6 @@ cAntibiotic = joblib.load(os.path.join(pAth,'antibiotic.pkl'))
 cCulture = joblib.load(os.path.join(pAth,'culture.pkl'))
 cOrganism = joblib.load(os.path.join(pAth,'organism.pkl'))
 
-'''
-'''
-
-
 app=Flask(__name__)
 CORS(app)
 def home():
@@ -51,7 +45,7 @@ def predict():
         antibiotics = ['Levofloxacin', 'Nitrofurantoin', 'Amikacin' ,'Trimethoprim/Sulfamethoxazole' ,'Tobramycin', 'Gentamicin' ,'Ampicillin' ,'Ciprofloxacin' ,'Cefazolin' ,'Piperacillin/Tazobactam' ,'Ceftriaxone' ,'Ceftazidime' ,'Meropenem' ,'Ertapenem' ,'Tetracycline' ,'Amoxicillin/Clavulanic Acid', 'Cefoxitin', 'Cefepime', 'Aztreonam' ,'Moxifloxacin' ,'Cefuroxime' ,'Imipenem' ,'Tigecycline', 'Ampicillin/Sulbactam' ,'Linezolid' ,'Daptomycin', 'Penicillin', 'Vancomycin', 'Cefotaxime', 'Cefotetan', 'Clarithromycin', 'Doxycycline', 'Clindamycin', 'Oxacillin', 'Erythromycin', 'Ceftaroline' ,'Ticarcillin', 'Piperacillin', 'Streptomycin', 'Imipenem/Ebactam', 'Ceftolozane/Tazobactam', 'Fosfomycin', 'Metronidazole', 'Doripenem', 'Ceftazidime/Avibactam', 'Quinupristin/Dalfopristin', 'Colistin', 'Minocycline', 'Ticacarcillin/Clavulanic Acid', 'Cephalexin/Cephalothin', 'Cefiderocol' ,'Meropenem/Vaborbactam' ,'Cefpodoxime' ,'Chloramphenicol', 'Amoxicillin/ClavulanicAcid' ,'Ticacarcillin/ClavulanicAcid']
 
         pulledData=request.get_json()
-        print("Raw received data:", pulledData)  # check if data arrives at all
+        print("Raw received data:", pulledData)
 
         data = pd.DataFrame([pulledData['userInputs']])
         print("DataFrame created:", data) 
@@ -91,17 +85,7 @@ def predict():
         dataOrganism = pd.concat([data.drop(columns=['age','culture_description']),ageDf,cultureDf],axis=1)
         dataOrganism = dataOrganism.apply(pd.to_numeric)
         print("DataFrame dtypes:", dataOrganism.dtypes)
-        '''
-        organismPrediction = organtibioticAI.predict(dataOrganism)
-        print("Organism prediction:", organismPrediction)
-        dataOrganism['organism'] = organismPrediction
-        dataOutcomes = dataOrganism.copy()
-        dataOrganism = dataOrganism.drop('organism',axis=1)
-        
-        susceptibleAntibiotics = {}
-        intermediateAntibiotics = {}
-        resistantAntibiotics = {}
-'''
+
         organismPrediction = organtibioticAI.predict(dataOrganism)
         print("Organism prediction:", organismPrediction)
 
